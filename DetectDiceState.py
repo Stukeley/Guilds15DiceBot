@@ -3,6 +3,7 @@ import pytesseract
 import fnmatch
 
 
+# Funkcja zwraca 1, jeśli gracz wygrał w kości, 0 jeśli przegrał
 def DetectDiceState(img):
     lost_text = "zaginiony"
     won_text = "wygrał"
