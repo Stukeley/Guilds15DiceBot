@@ -4,11 +4,12 @@ import fnmatch
 
 
 # Funkcja zwraca 1, jeśli gracz wygrał w kości, 0 jeśli przegrał
+# TODO: lepszy preprocessing?
 def DetectDiceState(img):
     lost_text = "zaginiony"
     won_text = "wygrał"
 
-    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'     # Do zmiany
     img_cropped = img[200:350, 150:700]
     img_gray = cv2.cvtColor(img_cropped, cv2.COLOR_BGR2GRAY)
 
