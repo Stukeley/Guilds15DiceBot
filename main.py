@@ -2,6 +2,7 @@ import cv2
 from DetectDiceState import DetectDiceState
 import pygetwindow as gw
 import pyautogui
+import pydirectinput
 import time
 import keyboard
 
@@ -43,8 +44,7 @@ def SpamDialogue(window, dialogueNumber, exitsDialogue):
 
     # Strzałka w dół (dialogueNumber - 1) razy
     for i in range(dialogueNumber - 1):
-        pyautogui.keyDown('down')
-        pyautogui.keyUp('down')
+        pydirectinput.press('down')
         time.sleep(0.1)
 
     # Enter (kości)
@@ -82,8 +82,7 @@ def SpamDialogue(window, dialogueNumber, exitsDialogue):
     # Jeżeli NPC wychodzi z dialogu, to nie robimy nic więcej
     # Inaczej klikamy opcje, by wyjść z dialogu
     if not exitsDialogue:
-        pyautogui.keyDown('up')
-        pyautogui.keyUp('up')
+        pydirectinput.press('up')
         time.sleep(0.1)
         pyautogui.press('enter')
         time.sleep(0.1)
