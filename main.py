@@ -1,3 +1,4 @@
+import cv2
 from DetectDiceState import DetectDiceState
 import pygetwindow as gw
 import pyautogui
@@ -33,15 +34,17 @@ def SpamDialogue(window, dialogueNumber, exitsDialogue):
         return
 
     window.activate()
-    time.sleep(0.1)
+    time.sleep(0.5)
 
     # Wejście do dialogu
-    pyautogui.press('ctrl')
+    pyautogui.keyDown('ctrlleft')
+    pyautogui.keyUp('ctrlleft')
     time.sleep(1)
 
     # Strzałka w dół (dialogueNumber - 1) razy
     for i in range(dialogueNumber - 1):
-        pyautogui.press('down')
+        pyautogui.keyDown('down')
+        pyautogui.keyUp('down')
         time.sleep(0.1)
 
     # Enter (kości)
@@ -79,8 +82,8 @@ def SpamDialogue(window, dialogueNumber, exitsDialogue):
     # Jeżeli NPC wychodzi z dialogu, to nie robimy nic więcej
     # Inaczej klikamy opcje, by wyjść z dialogu
     if not exitsDialogue:
-        # TODO
-        pyautogui.press('up')
+        pyautogui.keyDown('up')
+        pyautogui.keyUp('up')
         time.sleep(0.1)
         pyautogui.press('enter')
         time.sleep(0.1)
@@ -100,18 +103,18 @@ def PerformInputActions(window, outcome):
         # Zapisz grę
         # Odczekaj
         # Kliknij ponownie
-        pyautogui.press('f10')
+        pyautogui.keyDown('f10')
+        pyautogui.keyUp('f10')
         time.sleep(6)
-        pyautogui.press('ctrl')
 
     else:
         # Przegrana:
         # Wczytaj grę
         # Odczekaj
         # Kliknij ponownie
-        pyautogui.press('f12')
+        pyautogui.keyDown('f12')
+        pyautogui.keyUp('f12')
         time.sleep(6)
-        pyautogui.press('ctrl')
 
 
 def MainLoop(gothic_window, dialogue_number, exits_dialogue):
@@ -123,6 +126,10 @@ def MainLoop(gothic_window, dialogue_number, exits_dialogue):
     time.sleep(0.5)
     screenshot = TakeScreenshot(gothic_window)
 
+    # Zapis zrzutu ekranu i wczytanie za pomocą cv2
+    screenshot.save("data/screenshot.png")
+    screenshot = cv2.imread("data/screenshot.png")
+
     # Wykrywamy stan kości
     dice_state = DetectDiceState(screenshot)
 
@@ -132,9 +139,9 @@ def MainLoop(gothic_window, dialogue_number, exits_dialogue):
 
 def main():
 
-    gothic_name = "Gothic 2"    # Do zmiany
-    dialogue_number = 2        # Do zmiany
-    exits_dialogue = True     # Do zmiany
+    gothic_name = "Gothic II - 2.6 (fix)"    # Do zmiany
+    dialogue_number = 3        # Do zmiany
+    exits_dialogue = False     # Do zmiany
     loop_active = False
 
     gothic_window = GetWindow(gothic_name)
@@ -146,10 +153,13 @@ def main():
     def toggle_loop():
         nonlocal loop_active
         loop_active = not loop_active
+        print("Działanie skryptu: " + str(loop_active))
 
     # Rejestrujemy hotkey do włączania/wyłączania skryptu
-    print("On/Off ctrl+shift+q")
-    keyboard.add_hotkey("ctrl+shift+q", toggle_loop)
+    print("On/Off shift+q")
+    keyboard.add_hotkey("shift+q", toggle_loop)
+
+    # TODO: strzałki nie działają
 
     try:
         while True:
