@@ -158,8 +158,6 @@ def main():
     print("On/Off shift+q")
     keyboard.add_hotkey("shift+q", toggle_loop)
 
-    # TODO: strzałki nie działają
-
     try:
         while True:
             if loop_active:
