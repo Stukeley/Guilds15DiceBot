@@ -30,7 +30,16 @@ def process_image(path, resolution=Resolution.P1080):
                 sub_image = sub_image[20:80, 20:80]
                 sub_images.append(sub_image)
     elif resolution == Resolution.P1440:
-        pass
+        # Pozycje kości w 1440p:
+        # 1050:1110, 290:345
+        # 1050:1110, 447:504
+        # 1228:1292, 290:345
+        # 1228:1292, 447:504
+        for y_start in [290, 448]:
+            for x_start in [1050, 1230]:
+                sub_image = image[y_start:y_start+57, x_start:x_start+62]
+                sub_image = cv2.resize(sub_image, (100, 100))
+                sub_images.append(sub_image)
 
     return sub_images
 
