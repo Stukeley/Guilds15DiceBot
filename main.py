@@ -241,13 +241,47 @@ def controls_loop(gothic_window, dialoguenumber, exitsdialogue, resolution=Resol
         return False
 
 
-def main():
+def take_user_input():
     # CONFIG
-    windowname = "Gothic II - 2.6 (fix)"
-    dialoguenumber = 3
-    exitsdialogue = False
-    resolution = Resolution.P1080
+    windowname, dialoguenumber, exitsdialogue, resolution = "Gothic II - 2.6 (fix)", 3, False, Resolution.P1080
+    
+    # User input
+    print("Podaj nazwę okna gry gotyckiej 2 (pozostaw puste - domyślne: 'Gothic II - 2.6 (fix)'):")
+    user_input = input()
+
+    if user_input != "":
+        windowname = user_input
+
+    print("Podaj numer dialogu (pozostaw puste - domyślnie: 3):")
+    user_input = input()
+
+    if user_input != "":
+        try:
+            dialoguenumber = int(user_input)
+        except ValueError:
+            print("Nieprawidłowy numer dialogu")
+            return
+
+    print("Czy NPC wychodzi z dialogu? (t/n, pozostaw puste - domyślnie: nie):")
+    user_input = input()
+
+    if user_input == "t":
+        exitsdialogue = True
+        
+    print("Podaj rozdzielczość (1080/1440, pozostaw puste - domyślnie: 1080):")
+    user_input = input()
+    
+    if user_input == "1440":
+        resolution = Resolution.P1440
+        
+    return windowname, dialoguenumber, exitsdialogue, resolution
+
+
+def main():
     loop_active = False
+    
+    # User input - CONFIG
+    windowname, dialoguenumber, exitsdialogue, resolution = take_user_input()
 
     gothic_window = get_window(windowname)
 

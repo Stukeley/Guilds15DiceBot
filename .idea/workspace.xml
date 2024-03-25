@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="14100d4b-5725-4c6a-be3c-fd2256bf303d" name="Changes" comment="Poprawki działania.">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DiceExtractionCV.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/DiceExtractionCV.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -54,6 +52,8 @@
       <updated>1711387899286</updated>
       <workItem from="1711387900973" duration="597000" />
       <workItem from="1711389672603" duration="1725000" />
+      <workItem from="1711392307826" duration="10000" />
+      <workItem from="1711398600764" duration="343000" />
     </task>
     <task id="LOCAL-00001" summary="Poprawki działania.">
       <option name="closed" value="true" />
