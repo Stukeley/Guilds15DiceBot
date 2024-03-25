@@ -23,10 +23,10 @@ def process_image(path, resolution=Resolution.P1080):
 
         for y_start in [0, 120]:
             for x_start in [0, 135]:
-                # First crop, get entire dice with circle around it
+                # Pierwsze wycięcie, wycięcie kości wraz z obszarem wokół
                 sub_image = cropped_image[y_start:y_start+75, x_start:x_start+75]
                 sub_image = cv2.resize(sub_image, (100, 100))
-                # Second crop, remove circle around dice
+                # Drugie wycięcie, wycięcie samej kości
                 sub_image = sub_image[20:80, 20:80]
                 sub_images.append(sub_image)
     elif resolution == Resolution.P1440:
@@ -60,10 +60,11 @@ def count_dots(threshed, image):
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
     opening = cv2.morphologyEx(threshed, cv2.MORPH_OPEN, kernel, iterations=3)
 
-    # Find circles
+    # Znalezienie konturów
     cnts = cv2.findContours(opening, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     cnts = cnts[0] if len(cnts) == 2 else cnts[1]
     for c in cnts:
+        # Sprawdzenie, czy kontur jest odpowiedniej wielkości
         area = cv2.contourArea(c)
         if area > 20 and area < 50:
             ((x, y), r) = cv2.minEnclosingCircle(c)
@@ -78,7 +79,7 @@ def get_window(name):
         window.activate()
         return window
     except IndexError:
-        print(f"Window {name} not found")
+        print(f"Okno o nazwie {name} nie zostało znalezione")
         return None
 
 
@@ -165,7 +166,7 @@ def spam_dialogue(window, dialoguenumber, exitsdialogue):
     # Jeżeli NPC wychodzi z dialogu, to nie robimy nic więcej
     # Inaczej klikamy opcje, by wyjść z dialogu
     if not exitsdialogue:
-        pyautogui.press('2')    # Potencjalny config, ale powinno zawsze być 2
+        pyautogui.press('2')    #! Potencjalny config, ale powinno zawsze być 2
         time.sleep(0.1)
         pyautogui.press('enter')
         time.sleep(0.1)
@@ -225,8 +226,8 @@ def controls_loop(gothic_window, dialoguenumber, exitsdialogue, resolution=Resol
             white_dots = count_dots(thresh, dices[i])
             player_dices += white_dots
 
-        print("Enemy dices:", enemy_dices)
-        print("Player dices:", player_dices)
+        print("Przeciwnik:", enemy_dices)
+        print("Gracz:", player_dices)
 
         outcome = 0
 
@@ -277,11 +278,21 @@ def take_user_input():
     return windowname, dialoguenumber, exitsdialogue, resolution
 
 
+def print_config(windowname, dialoguenumber, exitsdialogue, resolution):
+    print("Konfiguracja:")
+    print(f"Okno gry: {windowname}")
+    print(f"Numer dialogu: {dialoguenumber}")
+    print(f"NPC wychodzi z dialogu: {exitsdialogue}")
+    print(f"Rozdzielczość: {resolution}")
+    
+
 def main():
     loop_active = False
     
     # User input - CONFIG
     windowname, dialoguenumber, exitsdialogue, resolution = take_user_input()
+    
+    print_config(windowname, dialoguenumber, exitsdialogue, resolution)
 
     gothic_window = get_window(windowname)
 
@@ -303,9 +314,9 @@ def main():
                 result = controls_loop(gothic_window, dialoguenumber, exitsdialogue, resolution)
 
                 if result:
-                    print("Iteration succeeded")
+                    print("Tura zakończona pomyślnie")
                 else:
-                    print("Iteration failed")
+                    print("Tura zakończona niepomyślnie")
     except KeyboardInterrupt:
         print("Koniec")
     finally:
