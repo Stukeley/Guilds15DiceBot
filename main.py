@@ -1,24 +1,79 @@
 import cv2
-from DetectDiceState import DetectDiceState
+from enum import Enum
 import pygetwindow as gw
 import pyautogui
-import pydirectinput
 import time
 import keyboard
+import pydirectinput
 
 
-# Funkcja zwraca okno o podanej nazwie
-def GetWindow(name):
+class Resolution(Enum):
+    P1080 = 1080,
+    P1440 = 1440
+
+
+def process_image(path, resolution=Resolution.P1080):
+    image = cv2.imread(path)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    sub_images = []
+
+    if resolution == Resolution.P1080:
+        cropped_image = image[200:400, 775:975]
+
+        for y_start in [0, 120]:
+            for x_start in [0, 135]:
+                # First crop, get entire dice with circle around it
+                sub_image = cropped_image[y_start:y_start+75, x_start:x_start+75]
+                sub_image = cv2.resize(sub_image, (100, 100))
+                # Second crop, remove circle around dice
+                sub_image = sub_image[20:80, 20:80]
+                sub_images.append(sub_image)
+    elif resolution == Resolution.P1440:
+        pass
+
+    return sub_images
+
+
+def threshold_image(gray):
+    threshed = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
+    return threshed
+
+
+def count_dots(threshed, image):
+    cnts = cv2.findContours(threshed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    cnts = cnts[0] if len(cnts) == 2 else cnts[1]
+    for c in cnts:
+        area = cv2.contourArea(c)
+        if area < 500:
+            cv2.drawContours(image, [c], -1, (0, 255, 0), 2)
+
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
+    opening = cv2.morphologyEx(threshed, cv2.MORPH_OPEN, kernel, iterations=3)
+
+    # Find circles
+    cnts = cv2.findContours(opening, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    cnts = cnts[0] if len(cnts) == 2 else cnts[1]
+    for c in cnts:
+        area = cv2.contourArea(c)
+        if area > 20 and area < 50:
+            ((x, y), r) = cv2.minEnclosingCircle(c)
+            cv2.circle(image, (int(x), int(y)), int(r), (36, 255, 12), 2)
+
+    return len(cnts)
+
+
+def get_window(name):
     try:
         window = gw.getWindowsWithTitle(name)[0]
+        window.activate()
         return window
     except IndexError:
-        print("Nie znaleziono okna o takiej nazwie")
+        print(f"Window {name} not found")
         return None
 
 
-# Funkcja zwraca zrzut ekranu uzyskanego okna
-def TakeScreenshot(window):
+def take_screenshot(window):
     if window is None:
         return None
     window.activate()
@@ -27,10 +82,7 @@ def TakeScreenshot(window):
     return screenshot
 
 
-# Funkcja przeklikująca dialogi w kości
-# Wywoływana po sekwencji akcji w PerformInputActions
-# Parametrem jest numer dialogu w kolejności
-def SpamDialogue(window, dialogueNumber, exitsDialogue):
+def spam_dialogue(window, dialoguenumber, exitsdialogue):
     if window is None:
         return
 
@@ -43,7 +95,7 @@ def SpamDialogue(window, dialogueNumber, exitsDialogue):
     time.sleep(1)
 
     # Strzałka w dół (dialogueNumber - 1) razy
-    for i in range(dialogueNumber - 1):
+    for i in range(dialoguenumber - 1):
         pydirectinput.press('down')
         time.sleep(0.1)
 
@@ -81,16 +133,14 @@ def SpamDialogue(window, dialogueNumber, exitsDialogue):
 
     # Jeżeli NPC wychodzi z dialogu, to nie robimy nic więcej
     # Inaczej klikamy opcje, by wyjść z dialogu
-    if not exitsDialogue:
+    if not exitsdialogue:
         pydirectinput.press('up')
         time.sleep(0.1)
         pyautogui.press('enter')
         time.sleep(0.1)
 
 
-# Funkcja wykonująca sekwencję akcji w zależności od tego, czy gracz wygrał czy przegrał w kości
-# Inne zachowanie w przypadku, gdy NPC wychodzi z dialogu
-def PerformInputActions(window, outcome):
+def perform_input_actions(window, outcome):
     if window is None:
         return
 
@@ -116,64 +166,84 @@ def PerformInputActions(window, outcome):
         time.sleep(6)
 
 
-def MainLoop(gothic_window, dialogue_number, exits_dialogue):
+def controls_loop(gothic_window, dialoguenumber, exitsdialogue, resolution=Resolution.P1080):
+    try:
+        spam_dialogue(gothic_window, dialoguenumber, exitsdialogue)
 
-    # Przeklikanie kości
-    SpamDialogue(gothic_window, dialogue_number, exits_dialogue)
+        # Czekamy 0.5 sekundy, po czym wykonujemy zrzut ekranu
+        time.sleep(0.5)
+        screenshot = take_screenshot(gothic_window)
 
-    # Czekamy 0.5 sekundy, po czym wykonujemy zrzut ekranu
-    time.sleep(0.5)
-    screenshot = TakeScreenshot(gothic_window)
+        screenshot.save("data/screenshot.png")
 
-    # Zapis zrzutu ekranu i wczytanie za pomocą cv2
-    screenshot.save("data/screenshot.png")
-    screenshot = cv2.imread("data/screenshot.png")
+        dices = process_image("data/screenshot.png", resolution)
+        enemy_dices = 0
+        player_dices = 0
 
-    # Wykrywamy stan kości
-    dice_state = DetectDiceState(screenshot)
+        for i in range(2):
+            thresh = threshold_image(dices[i])
+            cv2.imwrite(f"out/thresh{i}.png", thresh)
+            white_dots = count_dots(thresh, dices[i])
+            enemy_dices += white_dots
 
-    # W zależności od stanu kości wykonujemy akcje
-    PerformInputActions(gothic_window, dice_state)
+        for i in range(2, 4):
+            thresh = threshold_image(dices[i])
+            cv2.imwrite(f"out/thresh{i}.png", thresh)
+            white_dots = count_dots(thresh, dices[i])
+            player_dices += white_dots
+
+        print("Enemy dices:", enemy_dices)
+        print("Player dices:", player_dices)
+
+        outcome = 0
+
+        if player_dices > enemy_dices:
+            outcome = 1
+
+        perform_input_actions(gothic_window, outcome)
+
+        return True
+    except Exception as e:
+        print(e)
+        return False
 
 
 def main():
-
-    gothic_name = "Gothic II - 2.6 (fix)"    # Do zmiany
-    dialogue_number = 3        # Do zmiany
-    exits_dialogue = False     # Do zmiany
+    # CONFIG
+    windowname = "Gothic II - 2.6 (fix)"
+    dialoguenumber = 3
+    exitsdialogue = False
+    resolution = Resolution.P1080
     loop_active = False
 
-    gothic_window = GetWindow(gothic_name)
+    gothic_window = get_window(windowname)
 
     if gothic_window is None:
-        print("Nie znaleziono okna Gothic 2")
+        print("Nie znaleziono gry gotyckiej 2")
         return
 
     def toggle_loop():
         nonlocal loop_active
         loop_active = not loop_active
-        print("Działanie skryptu: " + str(loop_active))
+        print("Działanie skryptu: ", str(loop_active))
 
-    # Rejestrujemy hotkey do włączania/wyłączania skryptu
-    print("On/Off shift+q")
-    keyboard.add_hotkey("shift+q", toggle_loop)
-
-    # TODO: strzałki nie działają
+    print("On/Off Shift+Q")
+    keyboard.add_hotkey('shift+q', toggle_loop)
 
     try:
         while True:
             if loop_active:
-                # Wykonujemy główną pętlę
-                MainLoop(gothic_window, dialogue_number, exits_dialogue)
+                result = controls_loop(gothic_window, dialoguenumber, exitsdialogue, resolution)
 
-            # Czekamy przed następną iteracją
-            time.sleep(2)
-
+                if result:
+                    print("Iteration succeeded")
+                else:
+                    print("Iteration failed")
     except KeyboardInterrupt:
-        print("Przerwano działanie skryptu")
+        print("Koniec")
     finally:
         keyboard.unhook_all()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
