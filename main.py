@@ -117,30 +117,35 @@ def spam_dialogue(window, dialoguenumber, exitsdialogue):
     time.sleep(0.1)
 
     # Skip dialogów
-    for i in range(6):
+    for i in range(3):
         pyautogui.press('esc')
         time.sleep(0.1)
 
     # Enter
     # Moja kolej
     pyautogui.press('enter')
-    time.sleep(0.1)
-
-    # Skip dialogów
-    for i in range(4):
+    time.sleep(2)
+    
+    # Teraz na ekranie będą już wszystkie kości
+    # Ale musimy dać więcej escape'ów, bo nie działa xdd
+    for i in range(3):
+        pyautogui.press('esc')
+        time.sleep(0.1)
+        
+    for i in range(3):
         pyautogui.press('esc')
         time.sleep(0.1)
 
     # Jeżeli NPC wychodzi z dialogu, to nie robimy nic więcej
     # Inaczej klikamy opcje, by wyjść z dialogu
     if not exitsdialogue:
-        pydirectinput.press('up')
+        pyautogui.press('up')
         time.sleep(0.1)
         pyautogui.press('enter')
         time.sleep(0.1)
 
 
-def perform_input_actions(window, outcome):
+def perform_input_actions(window, outcome, exitsdialogue):
     if window is None:
         return
 
