@@ -1,4 +1,5 @@
 import cv2
+import os
 from enum import Enum
 import pygetwindow as gw
 import pyautogui
@@ -277,6 +278,8 @@ def controls_loop(gothic_window, dialoguenumber, exitsdialogue, resolution=Resol
         # Czekamy 0.2 sekundy, po czym wykonujemy zrzut ekranu
         time.sleep(0.2)
         screenshot = take_screenshot(gothic_window)
+        
+        os.mkdir("data")
 
         screenshot.save("data/screenshot.png")
 

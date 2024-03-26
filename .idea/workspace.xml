@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14100d4b-5725-4c6a-be3c-fd2256bf303d" name="Changes" comment="Dodano lokalizację programu na język angielski.">
+    <list default="true" id="14100d4b-5725-4c6a-be3c-fd2256bf303d" name="Changes" comment="Dodano możliwość zmiany klawiszy na quickload/quicksave.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -55,7 +55,8 @@
       <workItem from="1711392307826" duration="10000" />
       <workItem from="1711398600764" duration="749000" />
       <workItem from="1711457069379" duration="3633000" />
-      <workItem from="1711488085991" duration="605000" />
+      <workItem from="1711488085991" duration="710000" />
+      <workItem from="1711488908864" duration="88000" />
     </task>
     <task id="LOCAL-00001" summary="Poprawki działania.">
       <option name="closed" value="true" />
@@ -97,7 +98,15 @@
       <option name="project" value="LOCAL" />
       <updated>1711460731687</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Dodano możliwość zmiany klawiszy na quickload/quicksave.">
+      <option name="closed" value="true" />
+      <created>1711488796597</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1711488796597</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -120,6 +129,7 @@
     <MESSAGE value="Poprawki wyświetlanych komunikatów." />
     <MESSAGE value="Przyspieszono działanie programu." />
     <MESSAGE value="Dodano lokalizację programu na język angielski." />
-    <option name="LAST_COMMIT_MESSAGE" value="Dodano lokalizację programu na język angielski." />
+    <MESSAGE value="Dodano możliwość zmiany klawiszy na quickload/quicksave." />
+    <option name="LAST_COMMIT_MESSAGE" value="Dodano możliwość zmiany klawiszy na quickload/quicksave." />
   </component>
 </project>
