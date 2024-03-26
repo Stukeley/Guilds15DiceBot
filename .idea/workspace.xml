@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14100d4b-5725-4c6a-be3c-fd2256bf303d" name="Changes" comment="Przyspieszono działanie programu.">
+    <list default="true" id="14100d4b-5725-4c6a-be3c-fd2256bf303d" name="Changes" comment="Dodano lokalizację programu na język angielski.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -54,7 +54,8 @@
       <workItem from="1711389672603" duration="1725000" />
       <workItem from="1711392307826" duration="10000" />
       <workItem from="1711398600764" duration="749000" />
-      <workItem from="1711457069379" duration="3582000" />
+      <workItem from="1711457069379" duration="3633000" />
+      <workItem from="1711488085991" duration="605000" />
     </task>
     <task id="LOCAL-00001" summary="Poprawki działania.">
       <option name="closed" value="true" />
@@ -88,7 +89,15 @@
       <option name="project" value="LOCAL" />
       <updated>1711457570433</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Dodano lokalizację programu na język angielski.">
+      <option name="closed" value="true" />
+      <created>1711460731687</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1711460731687</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -110,6 +119,7 @@
     <MESSAGE value="Wydzielenie User Config w konsoli." />
     <MESSAGE value="Poprawki wyświetlanych komunikatów." />
     <MESSAGE value="Przyspieszono działanie programu." />
-    <option name="LAST_COMMIT_MESSAGE" value="Przyspieszono działanie programu." />
+    <MESSAGE value="Dodano lokalizację programu na język angielski." />
+    <option name="LAST_COMMIT_MESSAGE" value="Dodano lokalizację programu na język angielski." />
   </component>
 </project>

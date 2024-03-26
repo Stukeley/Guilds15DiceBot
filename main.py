@@ -30,7 +30,9 @@ english_strings = {
     "dice_enemy": "Enemy: ",
     "dice_player": "Player: ",
     "incorrect_dialogue_number": "Incorrect dialogue number",
-    "script_status": "Script is: "
+    "script_status": "Script is: ",
+    "load_key": "Load key (leave empty - default: F12): ",
+    "save_key": "Save key (leave empty - default: F10): "
 }
 
 polish_strings = {
@@ -56,10 +58,15 @@ polish_strings = {
     "dice_enemy": "Przeciwnik: ",
     "dice_player": "Gracz: ",
     "incorrect_dialogue_number": "Nieprawidłowy numer dialogu",
-    "script_status": "Działanie skryptu: "
+    "script_status": "Działanie skryptu: ",
+    "load_key": "Szybkie wczytanie (pozostaw puste - domyślne: F12): ",
+    "save_key": "Szybki zapis (pozostaw puste - domyślne: F10): "
 }
 
 strings = {}
+
+key_save = 'f10'
+key_load = 'f12'
 
 def init_localized_strings():
     global strings
@@ -249,8 +256,8 @@ def perform_input_actions(window, outcome):
         # Zapisz grę
         # Odczekaj
         # Kliknij ponownie
-        pyautogui.keyDown('f10')
-        pyautogui.keyUp('f10')
+        pyautogui.keyDown(key_save)
+        pyautogui.keyUp(key_save)
         time.sleep(4)
 
     else:
@@ -258,8 +265,8 @@ def perform_input_actions(window, outcome):
         # Wczytaj grę
         # Odczekaj
         # Kliknij ponownie
-        pyautogui.keyDown('f12')
-        pyautogui.keyUp('f12')
+        pyautogui.keyDown(key_load)
+        pyautogui.keyUp(key_load)
         time.sleep(4)
 
 
@@ -335,6 +342,20 @@ def take_user_input():
     
     if user_input == "1440":
         resolution = Resolution.P1440
+        
+    global key_save, key_load
+    
+    print(f"{strings['load_key']}", end="")
+    user_input = input()
+    
+    if user_input != "":
+        key_load = user_input
+        
+    print(f"{strings['save_key']}", end="")
+    user_input = input()
+    
+    if user_input != "":
+        key_save = user_input
         
     return windowname, dialoguenumber, exitsdialogue, resolution
 
