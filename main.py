@@ -118,7 +118,7 @@ def spam_dialogue(window, dialoguenumber, exitsdialogue):
         pyautogui.press('esc')
         time.sleep(0.1)
 
-    time.sleep(0.5)
+    time.sleep(0.2)
 
     # Enter x2
     # Stawka
@@ -128,7 +128,7 @@ def spam_dialogue(window, dialoguenumber, exitsdialogue):
     pyautogui.press('enter')
     time.sleep(0.1)
     
-    time.sleep(0.5)
+    time.sleep(0.2)
 
     # Skip dialogów
     for i in range(3):
@@ -136,13 +136,13 @@ def spam_dialogue(window, dialoguenumber, exitsdialogue):
         print(f"{i} Dialog skipnięty")
         time.sleep(0.1)
         
-    time.sleep(0.5)
+    time.sleep(0.2)
     
     # Enter
     # Rzuć pierwszy
     pyautogui.press('enter')
     print("Rzuć pierwszy")
-    time.sleep(0.5)
+    time.sleep(0.2)
     
     # Skip dialogów
     for i in range(3):
@@ -154,7 +154,7 @@ def spam_dialogue(window, dialoguenumber, exitsdialogue):
     # Moja kolej
     pyautogui.press('enter')
     print("Moja kolej")
-    time.sleep(0.5)
+    time.sleep(0.2)
     
     # Teraz na ekranie będą już wszystkie kości
     # Ale musimy dać więcej escape'ów, bo nie działa xdd
@@ -171,7 +171,7 @@ def spam_dialogue(window, dialoguenumber, exitsdialogue):
         pyautogui.press('enter')
         time.sleep(0.1)
         
-    time.sleep(1)
+    time.sleep(0.2)
 
 
 def perform_input_actions(window, outcome):
@@ -188,7 +188,7 @@ def perform_input_actions(window, outcome):
         # Kliknij ponownie
         pyautogui.keyDown('f10')
         pyautogui.keyUp('f10')
-        time.sleep(6)
+        time.sleep(4)
 
     else:
         # Przegrana:
@@ -197,15 +197,15 @@ def perform_input_actions(window, outcome):
         # Kliknij ponownie
         pyautogui.keyDown('f12')
         pyautogui.keyUp('f12')
-        time.sleep(6)
+        time.sleep(4)
 
 
 def controls_loop(gothic_window, dialoguenumber, exitsdialogue, resolution=Resolution.P1080):
     try:
         spam_dialogue(gothic_window, dialoguenumber, exitsdialogue)
 
-        # Czekamy 0.5 sekundy, po czym wykonujemy zrzut ekranu
-        time.sleep(0.5)
+        # Czekamy 0.2 sekundy, po czym wykonujemy zrzut ekranu
+        time.sleep(0.2)
         screenshot = take_screenshot(gothic_window)
 
         screenshot.save("data/screenshot.png")
@@ -247,13 +247,13 @@ def take_user_input():
     windowname, dialoguenumber, exitsdialogue, resolution = "Gothic II - 2.6 (fix)", 3, False, Resolution.P1080
     
     # User input
-    print("Podaj nazwę okna gry gotyckiej 2 (pozostaw puste - domyślne: 'Gothic II - 2.6 (fix)'):")
+    print("Podaj nazwę okna gry gotyckiej 2 (pozostaw puste - domyślne: 'Gothic II - 2.6 (fix)'):", end="")
     user_input = input()
 
     if user_input != "":
         windowname = user_input
 
-    print("Podaj numer dialogu (pozostaw puste - domyślnie: 3):")
+    print("Podaj numer dialogu (pozostaw puste - domyślnie: 3):", end="")
     user_input = input()
 
     if user_input != "":
@@ -263,13 +263,13 @@ def take_user_input():
             print("Nieprawidłowy numer dialogu")
             return
 
-    print("Czy NPC wychodzi z dialogu? (t/n, pozostaw puste - domyślnie: nie):")
+    print("Czy NPC wychodzi z dialogu? (t/n, pozostaw puste - domyślnie: nie):", end="")
     user_input = input()
 
     if user_input == "t":
         exitsdialogue = True
         
-    print("Podaj rozdzielczość (1080/1440, pozostaw puste - domyślnie: 1080):")
+    print("Podaj rozdzielczość (1080/1440, pozostaw puste - domyślnie: 1080):", end="")
     user_input = input()
     
     if user_input == "1440":
