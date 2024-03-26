@@ -279,7 +279,8 @@ def controls_loop(gothic_window, dialoguenumber, exitsdialogue, resolution=Resol
         time.sleep(0.2)
         screenshot = take_screenshot(gothic_window)
         
-        os.mkdir("data")
+        if not os.path.isdir("data"):
+            os.mkdir("data")
 
         screenshot.save("data/screenshot.png")
 

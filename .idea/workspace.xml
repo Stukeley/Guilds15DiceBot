@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14100d4b-5725-4c6a-be3c-fd2256bf303d" name="Changes" comment="Dodano możliwość zmiany klawiszy na quickload/quicksave.">
+    <list default="true" id="14100d4b-5725-4c6a-be3c-fd2256bf303d" name="Changes" comment="Naprawiono błąd z niepoprawnym zapisywaniem pliku.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -56,7 +56,9 @@
       <workItem from="1711398600764" duration="749000" />
       <workItem from="1711457069379" duration="3633000" />
       <workItem from="1711488085991" duration="710000" />
-      <workItem from="1711488908864" duration="88000" />
+      <workItem from="1711488908864" duration="230000" />
+      <workItem from="1711489753634" duration="108000" />
+      <workItem from="1711489901716" duration="14000" />
     </task>
     <task id="LOCAL-00001" summary="Poprawki działania.">
       <option name="closed" value="true" />
@@ -106,7 +108,15 @@
       <option name="project" value="LOCAL" />
       <updated>1711488796597</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Naprawiono błąd z niepoprawnym zapisywaniem pliku.">
+      <option name="closed" value="true" />
+      <created>1711489025604</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1711489025604</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -130,6 +140,7 @@
     <MESSAGE value="Przyspieszono działanie programu." />
     <MESSAGE value="Dodano lokalizację programu na język angielski." />
     <MESSAGE value="Dodano możliwość zmiany klawiszy na quickload/quicksave." />
-    <option name="LAST_COMMIT_MESSAGE" value="Dodano możliwość zmiany klawiszy na quickload/quicksave." />
+    <MESSAGE value="Naprawiono błąd z niepoprawnym zapisywaniem pliku." />
+    <option name="LAST_COMMIT_MESSAGE" value="Naprawiono błąd z niepoprawnym zapisywaniem pliku." />
   </component>
 </project>
