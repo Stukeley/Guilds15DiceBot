@@ -5,6 +5,69 @@ import pyautogui
 import time
 import keyboard
 import pydirectinput
+import locale
+
+english_strings = {
+    "window_not_found": "Window not found: ",
+    "window_name_prompt": "Enter the name of the Gothic 2 window (leave empty - default: 'Gothic II - 2.6 (fix)'): ",
+    "dialogue_number_prompt": "Enter the dialogue number (leave empty - default: 3): ",
+    "exits_dialogue_prompt": "Does the NPC exit the dialogue? (y/n, leave empty - default: no): ",
+    "resolution_prompt": "Enter the resolution (1080/1440, leave empty - default: 1080): ",
+    "config": "Configuration:",
+    "game_window": "Game window: ",
+    "dialogue_number": "Dialogue number: ",
+    "exits_dialogue": "NPC exits dialogue: ",
+    "resolution": "Resolution: ",
+    "end": "End",
+    "on_off": "On/Off Shift+Q",
+    "turn_ended_successfully": "Turn ended successfully",
+    "turn_ended_unsuccessfully": "Turn ended unsuccessfully",
+    "dialog_skip": " Dialogue skipped",
+    "dialog_skip_2": " Dialogue skipped in the second turn",
+    "dialog_skip_3": " Dialogue skipped in the third turn",
+    "throw_first": "Throw first",
+    "my_turn": "My turn",
+    "dice_enemy": "Enemy: ",
+    "dice_player": "Player: ",
+    "incorrect_dialogue_number": "Incorrect dialogue number",
+    "script_status": "Script is: "
+}
+
+polish_strings = {
+    "window_not_found": "Okno nie zostało znalezione: ",
+    "window_name_prompt": "Podaj nazwę okna gry gotyckiej 2 (pozostaw puste - domyślne: 'Gothic II - 2.6 (fix)'): ",
+    "dialogue_number_prompt": "Podaj numer dialogu (pozostaw puste - domyślnie: 3): ",
+    "exits_dialogue_prompt": "Czy NPC wychodzi z dialogu? (t/n, pozostaw puste - domyślnie: nie): ",
+    "resolution_prompt": "Podaj rozdzielczość (1080/1440, pozostaw puste - domyślnie: 1080): ",
+    "config": "Konfiguracja:",
+    "game_window": "Okno gry: ",
+    "dialogue_number": "Numer dialogu: ",
+    "exits_dialogue": "NPC wychodzi z dialogu: ",
+    "resolution": "Rozdzielczość: ",
+    "end": "Koniec",
+    "on_off": "On/Off Shift+Q",
+    "turn_ended_successfully": "Tura zakończona pomyślnie",
+    "turn_ended_unsuccessfully": "Tura zakończona niepomyślnie",
+    "dialog_skip": " Dialog skipnięty",
+    "dialog_skip_2": " Dialog skipnięty w drugiej turze",
+    "dialog_skip_3": " Dialog skipnięty w trzeciej turze",
+    "throw_first": "Rzuć pierwszy",
+    "my_turn": "Moja kolej",
+    "dice_enemy": "Przeciwnik: ",
+    "dice_player": "Gracz: ",
+    "incorrect_dialogue_number": "Nieprawidłowy numer dialogu",
+    "script_status": "Działanie skryptu: "
+}
+
+strings = {}
+
+def init_localized_strings():
+    global strings
+    user_language = locale.getdefaultlocale()[0]
+    if user_language == "pl_PL":
+        strings = polish_strings
+    else:
+        strings = english_strings
 
 
 class Resolution(Enum):
@@ -66,7 +129,7 @@ def count_dots(threshed, image):
     for c in cnts:
         # Sprawdzenie, czy kontur jest odpowiedniej wielkości
         area = cv2.contourArea(c)
-        if area > 20 and area < 50:
+        if 20 < area < 50:
             ((x, y), r) = cv2.minEnclosingCircle(c)
             cv2.circle(image, (int(x), int(y)), int(r), (36, 255, 12), 2)
 
@@ -79,7 +142,7 @@ def get_window(name):
         window.activate()
         return window
     except IndexError:
-        print(f"Okno o nazwie {name} nie zostało znalezione")
+        print(f"{strings['window_not_found']}{name}")
         return None
 
 
@@ -133,7 +196,7 @@ def spam_dialogue(window, dialoguenumber, exitsdialogue):
     # Skip dialogów
     for i in range(3):
         pyautogui.press('esc')
-        print(f"{i} Dialog skipnięty")
+        print(f"{i}{strings['dialog_skip']}")
         time.sleep(0.1)
         
     time.sleep(0.2)
@@ -141,26 +204,26 @@ def spam_dialogue(window, dialoguenumber, exitsdialogue):
     # Enter
     # Rzuć pierwszy
     pyautogui.press('enter')
-    print("Rzuć pierwszy")
+    print(f"{strings['throw_first']}")
     time.sleep(0.2)
     
     # Skip dialogów
     for i in range(3):
         pyautogui.press('esc')
-        print(f"{i} Dialog skipnięty w drugiej turze")
+        print(f"{i}{strings['dialog_skip_2']}")
         time.sleep(0.1)
 
     # Enter
     # Moja kolej
     pyautogui.press('enter')
-    print("Moja kolej")
+    print(f"{strings['my_turn']}")
     time.sleep(0.2)
     
     # Teraz na ekranie będą już wszystkie kości
     # Ale musimy dać więcej escape'ów, bo nie działa xdd
     for i in range(3):
         pyautogui.press('esc')
-        print(f"{i} Dialog skipnięty w trzeciej turze")
+        print(f"{i}{strings['dialog_skip_3']}")
         time.sleep(0.1)
         
     # Jeżeli NPC wychodzi z dialogu, to nie robimy nic więcej
@@ -216,18 +279,16 @@ def controls_loop(gothic_window, dialoguenumber, exitsdialogue, resolution=Resol
 
         for i in range(2):
             thresh = threshold_image(dices[i])
-            cv2.imwrite(f"out/thresh{i}.png", thresh)
             white_dots = count_dots(thresh, dices[i])
             enemy_dices += white_dots
 
         for i in range(2, 4):
             thresh = threshold_image(dices[i])
-            cv2.imwrite(f"out/thresh{i}.png", thresh)
             white_dots = count_dots(thresh, dices[i])
             player_dices += white_dots
 
-        print("Przeciwnik:", enemy_dices)
-        print("Gracz:", player_dices)
+        print(f"{strings['dice_enemy']}", enemy_dices)
+        print(f"{strings['dice_player']}", player_dices)
 
         outcome = 0
 
@@ -247,29 +308,29 @@ def take_user_input():
     windowname, dialoguenumber, exitsdialogue, resolution = "Gothic II - 2.6 (fix)", 3, False, Resolution.P1080
     
     # User input
-    print("Podaj nazwę okna gry gotyckiej 2 (pozostaw puste - domyślne: 'Gothic II - 2.6 (fix)'):", end="")
+    print(f"{strings['window_name_prompt']}", end="")
     user_input = input()
 
     if user_input != "":
         windowname = user_input
 
-    print("Podaj numer dialogu (pozostaw puste - domyślnie: 3):", end="")
+    print(f"{strings['dialogue_number_prompt']}", end="")
     user_input = input()
 
     if user_input != "":
         try:
             dialoguenumber = int(user_input)
         except ValueError:
-            print("Nieprawidłowy numer dialogu")
+            print(f"{strings['incorrect_dialogue_number']}")
             return
 
-    print("Czy NPC wychodzi z dialogu? (t/n, pozostaw puste - domyślnie: nie):", end="")
+    print(f"{strings['exits_dialogue_prompt']}", end="")
     user_input = input()
 
     if user_input == "t":
         exitsdialogue = True
         
-    print("Podaj rozdzielczość (1080/1440, pozostaw puste - domyślnie: 1080):", end="")
+    print(f"{strings['resolution_prompt']}", end="")
     user_input = input()
     
     if user_input == "1440":
@@ -279,15 +340,18 @@ def take_user_input():
 
 
 def print_config(windowname, dialoguenumber, exitsdialogue, resolution):
-    print("Konfiguracja:")
-    print(f"Okno gry: {windowname}")
-    print(f"Numer dialogu: {dialoguenumber}")
-    print(f"NPC wychodzi z dialogu: {exitsdialogue}")
-    print(f"Rozdzielczość: {resolution}")
+    print(f"{strings['config']}")
+    print(f"{strings['game_window']}{windowname}")
+    print(f"{strings['dialogue_number']}{dialoguenumber}")
+    print(f"{strings['exits_dialogue']}{exitsdialogue}")
+    print(f"{strings['resolution']}{resolution}")
     
 
 def main():
     loop_active = False
+    
+    # Inicjalizacja zmiennych językowych (napisów na ekranie)
+    init_localized_strings()
     
     # User input - CONFIG
     windowname, dialoguenumber, exitsdialogue, resolution = take_user_input()
@@ -297,15 +361,16 @@ def main():
     gothic_window = get_window(windowname)
 
     if gothic_window is None:
-        print("Nie znaleziono gry gotyckiej 2")
+        print(f"{strings['window_not_found']}{windowname}")
+        _ = input()
         return
 
     def toggle_loop():
         nonlocal loop_active
         loop_active = not loop_active
-        print("Działanie skryptu: ", str(loop_active))
+        print(f"{strings['script_status']}{str(loop_active)}")
 
-    print("On/Off Shift+Q")
+    print(f"{strings['on_off']}")
     keyboard.add_hotkey('shift+q', toggle_loop)
 
     try:
@@ -314,11 +379,11 @@ def main():
                 result = controls_loop(gothic_window, dialoguenumber, exitsdialogue, resolution)
 
                 if result:
-                    print("Tura zakończona pomyślnie")
+                    print(f"{strings['turn_ended_successfully']}")
                 else:
-                    print("Tura zakończona niepomyślnie")
+                    print(f"{strings['turn_ended_unsuccessfully']}")
     except KeyboardInterrupt:
-        print("Koniec")
+        print(f"{strings['end']}")
     finally:
         keyboard.unhook_all()
 

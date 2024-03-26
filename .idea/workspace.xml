@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="14100d4b-5725-4c6a-be3c-fd2256bf303d" name="Changes" comment="Poprawki wyświetlanych komunikatów.">
+    <list default="true" id="14100d4b-5725-4c6a-be3c-fd2256bf303d" name="Changes" comment="Przyspieszono działanie programu.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/screenshot.png" beforeDir="false" afterPath="$PROJECT_DIR$/data/screenshot.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,7 +54,7 @@
       <workItem from="1711389672603" duration="1725000" />
       <workItem from="1711392307826" duration="10000" />
       <workItem from="1711398600764" duration="749000" />
-      <workItem from="1711457069379" duration="341000" />
+      <workItem from="1711457069379" duration="3582000" />
     </task>
     <task id="LOCAL-00001" summary="Poprawki działania.">
       <option name="closed" value="true" />
@@ -81,7 +80,15 @@
       <option name="project" value="LOCAL" />
       <updated>1711399350409</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Przyspieszono działanie programu.">
+      <option name="closed" value="true" />
+      <created>1711457570433</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1711457570433</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -102,6 +109,7 @@
     <MESSAGE value="Poprawki działania." />
     <MESSAGE value="Wydzielenie User Config w konsoli." />
     <MESSAGE value="Poprawki wyświetlanych komunikatów." />
-    <option name="LAST_COMMIT_MESSAGE" value="Poprawki wyświetlanych komunikatów." />
+    <MESSAGE value="Przyspieszono działanie programu." />
+    <option name="LAST_COMMIT_MESSAGE" value="Przyspieszono działanie programu." />
   </component>
 </project>
